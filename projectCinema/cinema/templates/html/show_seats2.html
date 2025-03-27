@@ -1,0 +1,198 @@
+{% load static %}
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Seats</title>
+    <script>
+        function incrementValue(fieldId) {
+            var value = parseInt(document.getElementById(fieldId).value, 10);
+            value = isNaN(value) ? 0 : value;
+            value++;
+            document.getElementById(fieldId).value = value;
+        }
+
+        function decrementValue(fieldId) {
+            var value = parseInt(document.getElementById(fieldId).value, 10);
+            value = isNaN(value) ? 0 : value;
+            if (value > 0) {
+                value--;
+                document.getElementById(fieldId).value = value;
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Show Seats for Screen {{ screen_id }}</h1>
+    <h2>Show Time: {{ show.start_time|time:"g:i A" }} - {{ show.end_time|time:"g:i A" }}</h2>
+    <p>Capacity: {{ screen.capacity }}</p>
+
+    <h3>Select your seats:</h3>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="show_id" value="{{ show.id }}">
+        <input type="hidden" name="screen_id" value="{{ screen_id }}">
+        <p>Number of Adult Tickets:</p>
+        <button type="button" onclick="incrementValue('adult_tickets')">+</button>
+        <input type="number" id="adult_tickets" name="adult_tickets" value="0" min="0">
+        <button type="button" onclick="decrementValue('adult_tickets')">-</button>
+        <p>Number of Senior Citizen Tickets:</p>
+        <button type="button" onclick="incrementValue('senior_tickets')">+</button>
+        <input type="number" id="senior_tickets" name="senior_tickets" value="0" min="0">
+        <button type="button" onclick="decrementValue('senior_tickets')">-</button>
+        <p>Number of Child Tickets:</p>
+        <button type="button" onclick="incrementValue('child_tickets')">+</button>
+        <input type="number" id="child_tickets" name="child_tickets" value="0" min="0">
+        <button type="button" onclick="decrementValue('child_tickets')">-</button>
+        <p>Available Seats:</p>
+        <ul>
+            {% for seat in available_seats %}
+                <li><input type="checkbox" name="selected_seats" value="{{ seat.id }}"> Seat {{ seat.row }}{{ seat.number }}</li>
+            {% endfor %}
+        </ul>
+        <button type="submit">Book Tickets</button>
+    </form>
+</body>
+</html> {% endcomment %}
+
+{% comment %} {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Seats</title>
+    <script>
+        function incrementValue(fieldId) {
+            var value = parseInt(document.getElementById(fieldId).value, 10);
+            value = isNaN(value) ? 0 : value;
+            value++;
+            document.getElementById(fieldId).value = value;
+        }
+
+        function decrementValue(fieldId) {
+            var value = parseInt(document.getElementById(fieldId).value, 10);
+            value = isNaN(value) ? 0 : value;
+            if (value > 0) {
+                value--;
+                document.getElementById(fieldId).value = value;
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Show Seats for Screen {{ screen_id }}</h1>
+    <h2>Show Time: {{ show.start_time|time:"g:i A" }} - {{ show.end_time|time:"g:i A" }}</h2>
+    <p>Capacity: {{ screen.capacity }}</p>
+
+    <h3>Select your seats:</h3>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="show_id" value="{{ show.id }}">
+        <input type="hidden" name="screen_id" value="{{ screen_id }}">
+        <p>Number of Adult Tickets:</p>
+        <button type="button" onclick="incrementValue('adult_tickets')">+</button>
+        <input type="number" id="adult_tickets" name="adult_tickets" value="0" min="0">
+        <button type="button" onclick="decrementValue('adult_tickets')">-</button>
+        <p>Number of Senior Citizen Tickets:</p>
+        <button type="button" onclick="incrementValue('senior_tickets')">+</button>
+        <input type="number" id="senior_tickets" name="senior_tickets" value="0" min="0">
+        <button type="button" onclick="decrementValue('senior_tickets')">-</button>
+        <p>Number of Child Tickets:</p>
+        <button type="button" onclick="incrementValue('child_tickets')">+</button>
+        <input type="number" id="child_tickets" name="child_tickets" value="0" min="0">
+        <button type="button" onclick="decrementValue('child_tickets')">-</button>
+        <p>Available Seats:</p>
+        {% for seat in available_seats %}
+            {% for i in '0123456789' %}
+                <input type="checkbox" name="selected_seats" value="{{ seat.id }}"> Seat {{ seat.row }}{{ i }}
+                {% comment %} <input type="checkbox" name="selected_seats" value="{{ seat.id }}"> Seat {{ seat.row }}{{ seat.number }}{{ j }} {% endcomment %}
+           {% comment %}  {% endfor %}<br>
+        {% endfor %}<br> <br> <br>
+        <button type="submit">Book Tickets</button>
+    </form>
+</body>
+</html> {% endcomment %}
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Seats</title>
+    <script>
+        function incrementValue(fieldId) {
+            var value = parseInt(document.getElementById(fieldId).value, 10);
+            value = isNaN(value) ? 0 : value;
+            value++;
+            document.getElementById(fieldId).value = value;
+            generateSeats();
+        }
+
+        function decrementValue(fieldId) {
+            var value = parseInt(document.getElementById(fieldId).value, 10);
+            value = isNaN(value) ? 0 : value;
+            if (value > 0) {
+                value--;
+                document.getElementById(fieldId).value = value;
+                generateSeats();
+            }
+        }
+
+        function generateSeats() {
+            var adultTickets = parseInt(document.getElementById('adult_tickets').value, 10);
+            var seniorTickets = parseInt(document.getElementById('senior_tickets').value, 10);
+            var childTickets = parseInt(document.getElementById('child_tickets').value, 10);
+
+            var seatContainer = document.getElementById('seat-container');
+            seatContainer.innerHTML = '';
+
+            for (var i = 0; i < adultTickets + seniorTickets + childTickets; i++) {
+                var checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.name = 'selected_seats';
+                checkbox.value = i;
+                seatContainer.appendChild(checkbox);
+
+                var label = document.createTextNode(' Seat ' + (i + 1));
+                seatContainer.appendChild(label);
+
+                seatContainer.appendChild(document.createElement('br'));
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Show Seats for Screen {{ screen_id }}</h1>
+    <h2>Show Time: {{ show.start_time|time:"g:i A" }} - {{ show.end_time|time:"g:i A" }}</h2>
+    <p>Capacity: {{ screen.capacity }}</p>
+
+    <h3>Select your seats:</h3>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="show_id" value="{{ show.id }}">
+        <input type="hidden" name="screen_id" value="{{ screen_id }}">
+        <p>Number of Adult Tickets:</p>
+        <button type="button" onclick="incrementValue('adult_tickets')">+</button>
+        <input type="number" id="adult_tickets" name="adult_tickets" value="0" min="0">
+        <button type="button" onclick="decrementValue('adult_tickets')">-</button>
+        <p>Number of Senior Citizen Tickets:</p>
+        <button type="button" onclick="incrementValue('senior_tickets')">+</button>
+        <input type="number" id="senior_tickets" name="senior_tickets" value="0" min="0">
+        <button type="button" onclick="decrementValue('senior_tickets')">-</button>
+        <p>Number of Child Tickets:</p>
+        <button type="button" onclick="incrementValue('child_tickets')">+</button>
+        <input type="number" id="child_tickets" name="child_tickets" value="0" min="0">
+        <button type="button" onclick="decrementValue('child_tickets')">-</button>
+
+        <div id="seat-container">
+            <!-- Seats will be dynamically generated here -->
+        </div>
+
+        <button type="submit">Book Tickets</button>
+    </form>
+</body>
+</html>
+

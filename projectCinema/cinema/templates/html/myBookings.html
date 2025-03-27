@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/img/home_pics/logo.png" type="image/png">
+    <title>My Bookings</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #390707;
+            margin: 0;
+            padding: 0;
+        }
+
+        .table-container {
+            background-color: #e4bc68;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: black;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #e4bc68;
+            font-weight: bold;
+            color: #390707;
+        }
+
+        tr:hover {
+            background-color: #ffd700;
+        }
+
+        td:nth-child(odd) {
+            background-color: #fff;
+        }
+
+        td:nth-child(even) {
+            background-color: #f5deb3;
+        }
+
+        th:first-child, td:first-child {
+            padding-left: 20px;
+        }
+
+        th:last-child, td:last-child {
+            padding-right: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            border: 2px solid #000;
+        }
+        
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            border-right: 1px solid #000;
+        }
+        
+        th {
+            background-color: #e4bc68; 
+            font-weight: bold;
+            color: black;
+            border-right: 2px solid #000;
+        }
+        
+    </style>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/index 2.css' %}" />
+    <script src="{% static 'js/common.js' %}" defer></script>
+    <script src="{% static 'js/script.js' %}"></script>
+</head>
+<body data-user-logged-in="{{ request.user.is_authenticated|yesno:'true,false' }}" data-user-name="{% if user.is_authenticated %}{{ user.get_username }}{% endif %}">
+    <div class="table-container">
+        <h1>My Bookings</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Booking ID</th>
+                    <th>Movie</th>
+                    <th>Show Time</th>
+                    <th>Total Amount</th>
+                    <th>Status</th>
+                    <th>Seats</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                <tr>
+                    <td>{{ booking.booking_id }}</td>
+                    <td>{{ booking.show }}</td>
+                    <td>{{ booking.booking_time }}</td>
+                    <td>{{ booking.total_amount }}</td>
+                    <td>{{ booking.status }}</td>
+                    <td>{{ booking.seats }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

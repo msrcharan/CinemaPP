@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/img/home_pics/logo.png" type="image/png">
+    <link rel="stylesheet" href="{% static 'css/index 2.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}"> 
+    <link rel="stylesheet" href="{% static 'css/passchange.css' %}">
+</head>
+<body data-user-logged-in="{{ request.user.is_authenticated|yesno:'true,false' }}" data-user-name="{% if user.is_authenticated %}{{ user.get_username }}{% endif %}">
+    <div class="main-container">
+        <script src="{% static 'js/common.js' %}" async></script>
+        <div class="rectangle">
+            <h2 class="heading">Your email has been successfully verified.</h2>
+            <h3 class="paragraph">You can now <a href="{% url 'login' %}">login</a>.</h3>
+        </div>
+    </div>
+</body>
+</html>

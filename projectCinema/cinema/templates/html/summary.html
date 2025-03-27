@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Summary</title>
+    <style>
+        /* Add your custom CSS styles here */
+        /* For example: */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .summary-item {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body data-user-logged-in="{{ request.user.is_authenticated|yesno:'true,false' }}" data-user-name="{% if user.is_authenticated %}{{ user.get_username }}{% endif %}">
+    <div class="container">
+        <h1>Order Summary</h1>
+        <div class="summary-item">
+            <h2>Movie Title:</h2>
+            <p>{{ movie_title }}</p>
+        </div>
+        <div class="summary-item">
+            <h2>Show Date:</h2>
+            <p>{{ selected_date }}</p>
+        </div>
+        <div class="summary-item">
+            <h2>Show Time:</h2>
+            <p>{{ show_time }}</p>
+        </div>
+        <div class="summary-item">
+            <h2>Number of Tickets:</h2>
+            <p>{{ ticket_quantity }}</p>
+        </div>
+        <div class="summary-item">
+            <h2>Selected Seats:</h2>
+            <ul>
+                {% for seat_number in selected_seats %}
+                    <li>{{ seat_number }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="summary-item">
+            <h2>Total Price:</h2>
+            <p>{{ total_price }}</p>
+        </div>
+
+        <div class="summary-item">
+            <h2>Rating:</h2>
+            <p>{{ mpaa_rating }}</p>
+        </div>
+        <!-- Add any additional summary items as needed -->
+    </div>
+</body>
+</html>

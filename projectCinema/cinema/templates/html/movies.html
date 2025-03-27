@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;800&display=swap" />
+    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/index 2.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'css/movies.css' %}" type="text/css" />
+    <script src="{% static 'js/movies.js' defer%}" ></script> 
+</head>
+{% comment %} <body data-user-logged-in="{% if user.is_authenticated %}true{% else %}false{% endif %}" data-user-name="{% if user.is_authenticated %}{{ user.get_username }}{% endif %}"> {% endcomment %}
+<body data-user-logged-in="{{ request.user.is_authenticated|yesno:'true,false' }}" data-user-name="{% if user.is_authenticated %}{{ user.get_username }}{% endif %}">
+
+  <script> 
+    function searchMovies() {
+    var searchValue = document.getElementById("searchInput").value;
+    window.location.href = `/search/?q=${encodeURIComponent(searchValue)}`;
+    } 
+    function redirectToMoviePage(movieTitle) {
+      const userLoggedIn = document.body.getAttribute('data-user-logged-in');
+      console.log(userLoggedIn)
+      if (userLoggedIn === "true") {
+          window.location.href = '/individual_movie/' + movieTitle + '/';
+      } else {
+          // Redirect to the login page if the user is not logged in
+          window.location.href = '/login/';
+      }
+  }
+
+    function filterMovies() {
+      const selectedGenre = document.getElementById('genre').value;
+      const selectedDate = document.getElementById('release_date').value;
+      console.log('Selected Genre:', selectedGenre);
+      console.log('Selected Genre:', selectedDate); 
+      window.location.href = `/filter/?release_date=${encodeURIComponent(selectedDate)}&genre=${encodeURIComponent(selectedGenre)}`;
+  }
+
+
+  </script>
+  <div class="search-container">
+    <input type="text" id="searchInput" class="search" placeholder="Search movies by title...">
+    <button class="searchbtn" onclick="searchMovies()">Search</button>
+    <form id="filter-form" method="GET" style="background-color: #e2c78c;">
+      <label for="release_date" style="background-color: #e2c78c;">Release Date:</label>
+      <input type="date" id="release_date" name="release_date"> 
+      <label for="genre" style="background-color: #e2c78c;">Genre:</label>
+      <select id="genre" name="genre" class="genre">
+          <option value="">All</option>
+          <option value="action">Action</option>
+          <option value="comedy">Comedy</option>
+          <option value="drama">Drama</option>
+          <option value="horror">Horror</option>
+          <option value="romance">Romance</option>
+          <option value="sci-fi">Science Fiction</option>
+      </select>
+  
+      {% comment %} <button type="submit">Filter</button> {% endcomment %}
+      <button type="submit" onclick="filterMovies()">Filter</button>
+  </form>
+
+  </div>  
+  <div class="main-container">
+        <div id="myPopup" class="popup">
+            <div class="popup-content">
+              <span class="closePopup">&times;</span>
+              <h2 class="popup-title">Movie Title</h2>
+              <!-- Flex container for the poster and description -->
+              <div id="movieInfo" style="display: flex; align-items: center;">
+                <!-- Poster -->
+                <img id="moviePoster" src="" alt="v" style="width:10vw; margin-right: 20px;">
+                <!-- Description -->
+                <p id="movieDescription" style="flex-grow: 1;"></p>
+              </div>
+              <!-- Trailer below the info container -->
+              <div class="video-container">
+                <iframe id="movieTrailer" src="" frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen></iframe>
+              </div>
+              <button id="book-now">Book Now</button>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'js/common.js' %}" async></script>
+    
+</body>
+</html>

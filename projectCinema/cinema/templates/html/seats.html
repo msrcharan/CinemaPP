@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cinema++</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;800&display=swap" />
+  <link rel="stylesheet" href="{% static 'css/indi_movie.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+  <script src="{% static 'js/movies.js' %}"></script>
+  <link rel="icon" href="/img/home_pics/logo.png" type="image/png">
+</head>
+
+<body>
+  <div class="main-container">
+    
+    <script src="{% static 'js/common.js' %}" async></script>
+    <div id="timeSelector" style="display: none; position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border: 1px solid #ccc; z-index: 100;">
+      <!-- Time options will be dynamically added here -->
+  </div>
+    <div class="Date">
+       <div class="D1">
+            <div class="DateContainer"></div>
+            <span class="Day">Today</span>
+            <span class="Month">FEB
+                                    5</span>
+        </div>
+        <div class="D2">
+            <div class="DateContainer"></div>
+            <span class="Day">TUE</span>
+            <span class="Month">FEB
+                                    6</span>
+        </div>
+        <div class="D3">
+            <div class="DateContainer"></div>
+            <span class="Day">WED</span>
+            <span class="Month">FEB
+                                    7</span>
+        </div>
+        <div class="D4">
+            <div class="DateContainer"></div>
+            <span class="Day">FRI</span>
+            <span class="Month">FEB
+                                    9</span>
+        </div>
+        <div class="D5">
+            <div class="DateContainer"></div>
+            <span class="Day">THU</span>
+            <span class="Month">FEB
+                                    8</span>
+        </div>
+        
+        
+       
+    </div>
+    <div class="MovieScreen">
+        <div class="mvContainer"></div>
+        
+        <span class="Title">Title</span>
+        <span class="Rating">Rating</span>
+        <span class="Stars">5/5</span>
+
+
+        <div class="movie-img"></div>
+        <div class="Tickets">
+          <div class="TicketScreen"></div>
+          <span class="TicProp">Select Tickets</span>
+          <span class="kd">(10$) Kids</span>
+          <span class="reg">(20$) Regular</span>
+          <span class="Sr">(15$) Senior</span>
+          <div class="SrTicket">
+              <span class="removeTic">-</span>
+              <span class="TicNum">0</span>
+              <span class="addTic">+</span>
+          </div>
+          <div class="RTicket">
+              <span class="removeTic">-</span>
+              <span class="TicNum">0</span>
+              <span class="addTic">+</span>
+          </div>
+          <div class="KTicket">
+              <span class="removeTic">-</span>
+              <span class="TicNum">0</span>
+              <span class="addTic">+</span>
+          </div>
+      </div>
+      
+      
+        
+      </div>
+      
+
+       
+        
+
+        <div class="SeatSelect">
+          <div class="Screen"></div>
+          <div class="rowA">
+              <div class="S1"></div>
+              <div class="S2"></div>
+              <div class="S3"></div>
+              <div class="S4"></div>
+              <div class="S5"></div>
+              <div class="S6"></div>
+              <div class="S7"></div>
+              <div class="S8"></div>
+              <div class="S9"></div>
+              <div class="S10"></div>
+            </div>
+            <div class="rowB">
+              <div class="S1"></div>
+              <div class="S2"></div>
+              <div class="S3"></div>
+              <div class="S4"></div>
+              <div class="S5"></div>
+              <div class="S6"></div>
+              <div class="S7"></div>
+              <div class="S8"></div>
+              <div class="S9"></div>
+              <div class="S10"></div>
+            </div>
+            <div class="rowC">
+              <div class="S1"></div>
+              <div class="S2"></div>
+              <div class="S3"></div>
+              <div class="S4"></div>
+              <div class="S5"></div>
+              <div class="S6"></div>
+              <div class="S7"></div>
+              <div class="S8"></div>
+              <div class="S9"></div>
+              <div class="S10"></div>
+            </div>
+            <div class="rowD">
+              <div class="S1"></div>
+              <div class="S2"></div>
+              <div class="S3"></div>
+              <div class="S4"></div>
+              <div class="S5"></div>
+              <div class="S6"></div>
+              <div class="S7"></div>
+              <div class="S8"></div>
+              <div class="S9"></div>
+              <div class="S10"></div>
+            </div>
+            <div class="rowE">
+              <div class="S1"></div>
+              <div class="S2"></div>
+              <div class="S3"></div>
+              <div class="S4"></div>
+              <div class="S5"></div>
+              <div class="S6"></div>
+              <div class="S7"></div>
+              <div class="S8"></div>
+              <div class="S9"></div>
+              <div class="S10"></div>
+            </div>
+            <span class="v173_223">A</span>
+            <span class="v173_224">B</span>
+            <span class="v173_225">C</span>
+            <span class="v173_226">D</span>
+            <span class="v173_227">E</span>
+
+            <div class="price">
+              <div class="total">
+                <span><span class="count">0</span> Tickets</span>
+              </div>
+              <button id="bookButton" type="button">Book</button>
+            </div>
+         
+          
+          </div>
+      
+      
+            
+          <script src="{% static 'js/seats_indi.js' %}"></script>
+          <script src="{% static 'js/confirm_ind.js' %}"></script>
+          <script src="{% static 'js/DateScript_indi.js' %}"></script>
+          <script src="{% static 'js/time_indi.js' %}"></script>
+
+        
+
+</body>
+
+</html>

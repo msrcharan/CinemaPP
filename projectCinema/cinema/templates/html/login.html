@@ -1,0 +1,32 @@
+<!-- login.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;800&display=swap" />
+    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/index 2.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+  </head>
+
+  <body data-user-logged-in="{{ request.user.is_authenticated|yesno:'true,false' }}" data-user-name="{% if user.is_authenticated %}{{ user.get_username }}{% endif %}">
+    <div class="main-container">
+      <script src="{% static 'js/common.js' %}" async></script>
+      <div class="rectangle">
+        <div class="form-container">
+          <form method="post">
+            <label class="login">Login</label>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="loginbtn" type="submit">Login</button>
+          </form>
+        </div>
+
+        <a href="{% url 'password_reset' %}" class="forgot-password-click">Forgot Password? Click here to reset.</a>
+      </div>
+    </div>
+  </body>
+</html>

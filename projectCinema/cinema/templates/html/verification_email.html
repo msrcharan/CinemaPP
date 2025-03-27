@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/img/home_pics/logo.png" type="image/png">
+    <title>Verification Email</title>
+</head>
+<body>
+    <h2>Hello {{ user.username }},</h2>
+    <div class="container">
+        {% comment %} <h1>Email Verification</h1> {% endcomment %}
+        {% comment %} <p>Hello {{ user.username }},</p> {% endcomment %}
+        <p>Please click the following link to verify your email address:</p>
+        <a href="{{ verification_url }}">{{ verification_url }}</a>
+    </div>
+</body>
+
+</html>
+

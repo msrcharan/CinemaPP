@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/img/home_pics/logo.png" type="image/png">
+    <title>New Promo Code Available!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000000; /* Black */
+            color: #ffffff; /* White text */
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #1e1e1e; /* Dark gray */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1); /* White shadow */
+        }
+
+        h1 {
+            color: #ffffff; /* White */
+            margin-top: 0;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        li strong {
+            color: #007bff; /* Blue */
+        }
+
+        p {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            color: #cccccc; /* Light gray */
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff; /* Blue */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>New Promo Code Available!</h1>
+        <p>A new promo code has been added:</p>
+        <ul>
+            <li><strong>Code:</strong> {{ promo_code.code }}</li>
+            <li><strong>Discount Type:</strong> {{ promo_code.get_discount_type_display }}</li>
+            <li><strong>Discount Value:</strong> {{ promo_code.discount_value }}</li>
+            <li><strong>Valid From:</strong> {{ promo_code.valid_from }}</li>
+            <li><strong>Valid To:</strong> {{ promo_code.valid_to }}</li>
+        </ul>
+        <p>Visit our website to avail of this promotion!</p>
+    </div>
+</body>
+</html>

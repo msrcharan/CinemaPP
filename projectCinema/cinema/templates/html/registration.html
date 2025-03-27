@@ -1,0 +1,43 @@
+<!-- register.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;800&display=swap" />
+    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/index 2.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/registration.css' %}" />
+    <script>
+        function showVerificationAlert() {
+            alert("Verification mail sent");
+        }
+    </script>
+</head>
+
+{% comment %} <body data-user-logged-in="{{ request.user.is_authenticated|yesno:'true,false' }}" data-user-name="{% if user.is_authenticated %}{{ user.get_username }}{% endif %}"> {% endcomment %}
+    <div class="main-container" style="padding: 2vh 0 2vh 0">
+        <script src="{% static 'js/common.js' %}" async></script>
+            <div class="rectangle">
+                <div class="form-container" style="max-width: 100%;">
+                    <form method="post" enctype="multipart/form-data" onsubmit="showVerificationAlert()">
+                        <label class="sign-up-today">Sign Up Today</label>
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <label for="credit_card_expiry">credit_card_expiry:</label>
+                        <input type="date" name="credit_card_expiry" id="credit_card_expiry" placeholder="Card Expiry Date">
+                        <button class="signupbtn" type="submit" id="signup">Register</button>
+                    </form>
+                </div>
+                <span class="already-have-account">
+                    <a href="/login">Already Have an Account? Click Here to Sign in</a></span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

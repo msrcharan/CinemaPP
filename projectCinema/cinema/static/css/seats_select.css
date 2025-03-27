@@ -1,0 +1,32 @@
+.screen {
+  border: none;
+  height: 2px; /* Keeps the line thin */
+  background: black; /* Color of the HR */
+  border-radius: 50% / 20%; /* Creates a slight bow */
+  width: 100%; /* Adjust width as necessary */
+  margin: 20px auto; /* Centers the HR and adds vertical spacing */
+}
+
+.capacity-text {
+  font-size:2.5vh;
+  margin:2vh;
+}
+
+button {
+  flex:1;
+  font-size:1.5vw;
+  background-color: #e4bc68;
+  max-width:6vw;
+  border-color:black;
+  border-radius:10px;
+  font-family: 'Times New Roman', Times, serif;
+  cursor: pointer;
+  margin:auto;
+}
+
+.seats-select {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

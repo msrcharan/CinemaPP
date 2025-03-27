@@ -1,0 +1,294 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/img/home_pics/logo.png" type="image/png">
+    <title>Show Seats</title>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/index 2.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'css/indi_movie.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'css/seats_select.css' %}" type="text/css" />
+    <style>
+        {% comment %} .seat {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-color: #ccc;
+            border: 1px solid #000;
+            margin: 5px;
+            cursor: pointer;
+            color: black; /* Explicitly set the text color */
+            text-align: center; /* Center the text horizontally */
+            line-height: 30px; /* Align the text vertically */
+            font-size: 14px; /* Adjust font size as necessary */
+        }
+        .selected {
+            background-color: yellow;
+        } {% endcomment %}
+        .row {
+            margin-bottom: 10px;
+        }
+
+        .seat {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-color: #A0E7E5; /* Default color for unblocked seats */
+            border: 1px solid #000;
+            margin: 5px;
+            cursor: pointer;
+        }
+        
+        .blocked {
+            background-color: #FFAEBC; /* Color for blocked seats */
+        }
+        
+        .selected {
+            background-color: #B4F8C8; /* Color for selected seats */
+        }
+    </style>
+    <script>
+        var maxSeats;
+        var selectedSeats = 0;
+        
+        function saveSeatsToDatabase(seats) {
+            fetch('/book_tickets/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({ seats: seats })
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Failed to save seats');
+            })
+            .then(data => {
+                console.log(data.message);
+            })
+            .catch(error => {
+                console.error(error.message);
+            });
+        }
+
+        function incrementValue(fieldId) {
+            var value = parseInt(document.getElementById(fieldId).value, 10);
+            if (value < 10) { // Check if value is less than 10
+                value++;
+                document.getElementById(fieldId).value = value;
+                maxSeats = value;
+                resetSeats();
+            }
+        }
+
+        function decrementValue(fieldId) {
+            var value = parseInt(document.getElementById(fieldId).value, 10);
+            if (value > 0) {
+                value--;
+                document.getElementById(fieldId).value = value;
+                maxSeats = value;
+                resetSeats();
+            }
+        }
+
+        function selectSeat(seatId) {
+            var seat = document.getElementById(seatId);
+            if (!seat.classList.contains('selected') && selectedSeats < maxSeats) {
+                seat.classList.add('selected');
+                selectedSeats++;
+            } else if (seat.classList.contains('selected')) {
+                seat.classList.remove('selected');
+                selectedSeats--;
+            }
+            updateSelectedSeats();
+        }
+
+        function resetSeats() {
+            var seats = document.querySelectorAll('.seat');
+            seats.forEach(function(seat) {
+                seat.classList.remove('selected');
+            });
+            selectedSeats = 0;
+            updateSelectedSeats();
+        }
+
+        function updateSelectedSeats() {
+            var selectedSeatsArray = Array.from(document.querySelectorAll('.selected')).map(seat => seat.id);
+            
+            sessionStorage.setItem('selectedSeats', JSON.stringify(selectedSeatsArray));
+            displaySelectedSeats(selectedSeatsArray);
+            document.getElementById('selected_seats_input').value = JSON.stringify(selectedSeatsArray);
+            document.getElementById('selected_seats_list').value = JSON.stringify(selectedSeatsArray);
+        }
+        
+        function handleFormSubmission() {
+            const selectedSeatsArray = JSON.parse(sessionStorage.getItem('selectedSeats'));
+        }
+        
+        function displaySelectedSeats(selectedSeatsArray) {
+            var container = document.getElementById('selected-seats-container');
+            container.innerHTML = '';
+            
+            if (selectedSeatsArray && selectedSeatsArray.length > 0) {
+                var paragraph = document.createElement('p');
+                paragraph.textContent = 'Selected Seats: ' + selectedSeatsArray.join(', ');
+                var input = document.createElement('input');
+                input.setAttribute('type', 'hidden');
+                input.setAttribute('name', 'selected_seats_list');
+                input.value = JSON.stringify(selectedSeatsArray);
+                container.appendChild(input); 
+                container.appendChild(paragraph);
+            } else {
+                container.textContent = 'No seats selected.';
+            }
+        }
+
+
+        {% comment %} function generateSeatLayout() {
+            var seatContainer = document.getElementById('seat-container');
+            seatContainer.innerHTML = '';
+
+            
+            var seatLayout = [
+                ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10'],
+                ['B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8', 'B9', 'B10'],
+                ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10'],
+                ['D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'D10'],
+                ['E1', 'E2', 'E3', 'E4', 'E5', 'E6', 'E7', 'E8', 'E9', 'E10'],            
+                ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10'],
+                ['B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8', 'B9', 'B10'],
+                ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10'],
+                ['D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'D10'],
+                ['E1', 'E2', 'E3', 'E4', 'E5', 'E6', 'E7', 'E8', 'E9', 'E10'],     
+                // Add more rows as needed
+           ];
+
+            // Create seats based on seat layout
+            seatLayout.forEach(function(row) {
+                var rowElement = document.createElement('div');
+                rowElement.classList.add('row');
+                row.forEach(function(seatNumber) {
+                    var seat = document.createElement('div');
+                    seat.id = seatNumber;
+                    seat.classList.add('seat');
+                    seat.textContent = seatNumber;
+                    seat.addEventListener('click', function() {
+                        selectSeat(seatNumber);
+                    });
+                    rowElement.appendChild(seat);
+                });
+                seatContainer.appendChild(rowElement);
+            });
+        } {% endcomment %}
+
+        function generateSeatLayout() {
+            var seatContainer = document.getElementById('seat-container');
+            seatContainer.innerHTML = '';
+    
+            fetch(`/get_blocked_seats/?show_id={{ show.show_id }}`)
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Failed to fetch blocked seats');
+            })
+            .then(data => {
+                var seatLayout = [
+                    ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10'],
+                    ['B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8', 'B9', 'B10'],
+                    ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10'],
+                    ['D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'D10'],
+                    ['E1', 'E2', 'E3', 'E4', 'E5', 'E6', 'E7', 'E8', 'E9', 'E10'],                
+                ];
+    
+                seatLayout.forEach(function(row, rowIndex) {
+                    var rowElement = document.createElement('div');
+                    rowElement.classList.add('row');
+                    row.forEach(function(seatNumber, seatIndex) {
+                        var seat = document.createElement('div');
+                        seat.id = seatNumber;
+                        seat.classList.add('seat');
+                        seat.textContent = seatNumber;
+    
+                        // Check if the seat is blocked
+                        if (data.includes(`${String.fromCharCode(65 + rowIndex)}${seatIndex + 1}`)) {
+                            seat.classList.add('blocked');
+                        } else {
+                            seat.addEventListener('click', function() {
+                                selectSeat(seatNumber);
+                            });
+                        }
+    
+                        rowElement.appendChild(seat);
+                    });
+                    seatContainer.appendChild(rowElement);
+                });
+            })
+            .catch(error => {
+                console.error(error.message);
+            });
+        }
+
+        // Call generateSeatLayout function when the page loads
+        window.onload = function() {
+            generateSeatLayout();
+            var selectedSeatsArray = JSON.parse(sessionStorage.getItem('selectedSeats'));
+            displaySelectedSeats(selectedSeatsArray);
+        };
+        
+        console.log(selectedSeatsArray)
+    </script>
+</head>
+<body data-user-logged-in="{{ request.user.is_authenticated|yesno:'true,false' }}" data-user-name="{% if user.is_authenticated %}{{ user.get_username }}{% endif %}">
+    <div class="main-container" style="padding:20px;">
+        <script src="{% static 'js/common.js' %}" async></script>
+        <div class="rect">
+    <h1 class="dates-header">Show Seats for Screen {{ screen.screen_id }}</h1>
+    <h2 class="dates-header">Show Time: {{ show.start_time|time:"g:i A" }} - {{ show.end_time|time:"g:i A" }}</h2>
+    <p class="capacity-text"> Capacity: {{ screen.capacity }}</p>
+    <p>Rating: {{ mpaa_rating }}</p>
+    <h3 class="capacity-text">Select your seats:</h3>
+    <form action="{% url 'book_tickets' movie.title selected_date show.start_time|date:'Y-m-d H:i:s' show.show_id%}" method="POST" class="seats-select">
+         {% csrf_token %}
+        <input type="hidden" name="show_id" value="{{ show.id }}">
+        <input type="hidden" name="screen_id" value="{{ screen_id }}">
+        <p class="capacity-text">Number of Tickets:</p>
+        <div class="horizontal">
+        <button type="button" onclick="decrementValue('ticket_quantity')" style="flex:1;">-</button>
+        <input type="number" id="ticket_quantity" name="ticket_quantity" value="0" min="0">
+        <button type="button" onclick="incrementValue('ticket_quantity')">+</button>
+        </div>
+        <label for="child_tickets">Number of Child Tickets:</label>
+        <div class="horizontal">
+        <input type="number" id="child_tickets" name="child_tickets" min="0" value="0"><br><br>    
+        </div>
+        <div class="horizontal">
+        <label for="adult_tickets">Number of Adult Tickets:</label>
+        <input type="number" id="adult_tickets" name="adult_tickets" min="0" value="0"><br><br> 
+        <label for="senior_tickets">Number of Senior Citizen Tickets:</label>
+        <input type="number" id="senior_tickets" name="senior_tickets" min="0" value="0"><br><br>
+        <hr class="screen">
+         <div id="seat-container">
+            <!-- Seats will be dynamically generated here -->
+        </div>
+        <div id="selected-seats-container">
+            <!-- This div will contain the selected seats -->
+        </div>
+        
+        {% comment %} <input type="hidden" name="selected_seats" id="selected_seats"> {% endcomment %}
+        {% comment %} <input type="hidden" name="selected_seats_list" id="selected_seats_input" value="{{selectedSeatsArray}}">{% endcomment %}
+        
+        {% comment %} <input type="hidden" name="selected_seats_list" id="selected_seats_list" value=""> {% endcomment %}
+        {% comment %} {{ selectedSeatsArray|safe }} {% endcomment %}
+        <input type="hidden" name="show_id" value="{{show_id}}">
+        <input type="hidden" name="screen_id" value="{{screen_id}}">
+        <button type="submit">Book Tickets</button>
+    </form>
+</body>
+</html>
+

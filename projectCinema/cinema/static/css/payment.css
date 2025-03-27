@@ -1,0 +1,54 @@
+
+.rectangle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    height: auto;
+    margin: auto;
+    font-size: 0px;
+    background: #e2c78c;
+    overflow: hidden;
+    border-radius: 10px;
+    border: 20px solid #e2c78c;
+    resize: none;
+    margin: 5vh auto 5vh auto;
+  }
+  .frame-textarea {
+    position: flex;
+    flex:1;
+    font-size:25px;
+    margin-top:6%;
+    width: 100%;
+    height: auto;
+    background: white;
+    border: 1.5px solid #000000;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25);
+    resize: none;
+  }
+  .headings {
+    margin: 0 10% 0 10%;
+    display: flex;
+    justify-content: center;
+    flex:1;
+    height: 36px;
+    color: #000000;
+    font-family: Inter, var(--default-font-family);
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 36px;
+    text-align: left;
+    white-space: nowrap;
+  }
+  .payment {
+    margin-top:6%;
+    max-width:100%;
+    height:auto;
+    width:100%;
+    font-size:20px;
+    border-radius:10px;
+    background-color: #e4bc68;
+  }

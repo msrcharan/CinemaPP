@@ -1,0 +1,173 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Summary</title>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/index 2.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'css/indi_movie.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'css/booking.css' %}" type="text/css" />
+    <script>
+      window.onload = function() {
+          // Retrieve selected seats array from sessionStorage
+          var selectedSeatsArray = JSON.parse(sessionStorage.getItem('selectedSeats'));
+      
+          if (selectedSeatsArray && selectedSeatsArray.length > 0) {
+              displaySelectedSeats(selectedSeatsArray);
+          }
+      };
+      
+      function displaySelectedSeats(selectedSeatsArray) {
+          var container = document.getElementById('selected-seats-container');
+          container.innerHTML = '';
+      
+          if (selectedSeatsArray && selectedSeatsArray.length > 0) {
+              var paragraph = document.createElement('p');
+              paragraph.textContent = selectedSeatsArray.join(', ');
+              container.appendChild(paragraph);
+          } else {
+              container.textContent = 'No seats selected.';
+          }
+      }
+
+      function sendOrderSummary() {
+          // Assuming selectedSeatsArray is already available
+          var selectedSeatsArray = JSON.parse(sessionStorage.getItem('selectedSeats'));
+          var data = {
+              movie_title: '{{ movie_title }}',
+              selected_date: '{{ selected_date }}',
+              mpaa_rating: '{{ mpaa_rating }}',
+              show_time: '{{ show_time }}',
+              ticket_quantity: '{{ ticket_quantity }}',
+              
+              selected_seats_list: JSON.stringify(selectedSeatsArray),
+              total_price: '{{ total_price }}',
+              booking_fees: '{{ booking_fees }}',
+              tax: '{{ tax }}',
+              discount: '{{ discount }}',
+              total_new_price: '{{ total_new_price }}'
+          };
+
+          // Send the data via AJAX
+          $.ajax({
+              url: 'payments/',
+              type: 'POST',
+              contentType: 'application/json',
+              data: JSON.stringify(data),
+              success: function(response) {
+                  // Handle success
+              },
+              error: function(xhr, status, error) {
+                  // Handle error
+              }
+          });
+      }
+
+    </script>
+  </head>
+  <body data-user-logged-in="{{ request.user.is_authenticated|yesno:'true,false' }}" data-user-name="{% if user.is_authenticated %}{{ user.get_username }}{% endif %}">
+    <div class="main-container" style="padding:20px;">
+      <script src="{% static 'js/common.js' %}" async></script>
+      <div class="rect">
+        <h1>Order Summary</h1>
+        <div class="summary-item">
+          <h2>Movie Title:&nbsp;</h2>
+          <p>{{ movie_title }}</p>
+        </div>
+        <div class="summary-item">
+          <h2>Show Date:&nbsp;</h2>
+          <p>{{ selected_date }}</p>
+        </div>
+        <div class="summary-item">
+          <h2>Show Time:&nbsp;</h2>
+          <p>{{ show_time }}</p>
+        </div>
+        <div class="summary-item">
+          <h2>Number of Tickets:&nbsp;</h2>
+          <p>{{ ticket_quantity }}</p>
+        </div>
+        <form action="{% url 'book_tickets'%}" method="post">
+            {% csrf_token %}
+            <label for="child_tickets">Number of Child Tickets:</label>
+            <input type="number" id="child_tickets" name="child_tickets" min="0" required><br><br>
+            
+            <label for="adult_tickets">Number of Adult Tickets:</label>
+            <input type="number" id="adult_tickets" name="adult_tickets" min="0" required><br><br>
+            
+            <label for="senior_tickets">Number of Senior Citizen Tickets:</label>
+            <input type="number" id="senior_tickets" name="senior_tickets" min="0" required><br><br>
+            
+            <button type="submit">Book Tickets</button>
+        </form>
+
+        <div class="summary-item">
+          <h2>Selected Seats:&nbsp;</h2>
+          {% comment %} <div name="selected-seats-container" id="selected-seats-container" ></div> {% endcomment %}
+          
+          <p>{{formatted_seats}}</p>
+          
+          {% comment %} <p>{{ seats|replace:"'":''|replace:'"':''|strip:"[]" }}</p> {% endcomment %}
+        </div>
+        <div class="summary-item">
+          <h4>Sub-total:</h4>
+          <p>${{ total_price }}</p>
+        </div>
+        <div class="summary-item">
+          <h4>Booking Fees:</h4>
+          <p>${{ booking_fees }}</p>
+        </div>
+        <div class="summary-item">
+          <h4>Tax:</h4>
+          <p>${{ tax }}</p>
+        </div>
+        <div class="summary-item">
+          <h4>Discount:</h4>
+          <p>${{ discount }}</p> 
+          {% comment %} delete 00's here {% endcomment %}
+        </div>
+        <div class="summary-item">
+          <h4>Total Price:</h4>
+          <p>${{ total_new_price }}</p>
+        </div>
+
+        <form action="{% url 'apply_promo' movie_title selected_date show.start_time|date:'Y-m-d H:i:s' show.id%}" method="POST" id="promo-form" style="display:flex; flex-direction:column; align-content:center; width:18vw;">
+          {% csrf_token %}
+          <input type="hidden" name="movie_title" value="{{ movie_title }}">
+          <input type="hidden" name="selected_date" value="{{ selected_date }}">
+          <input type="hidden" name="show_time" value="{{ show_time }}">
+          <input type="hidden" name="ticket_quantity" value="{{ ticket_quantity }}">
+          <input type="hidden" name="selected_seats_list" value="{{ selected_seats_list }}">
+          <input type="hidden" name="total_price" value="{{ total_price }}">
+          <input type="hidden" name="formatted_seats" value="{{ formatted_seats }}">
+          <input type="hidden" name="screen_id" value="{{ screen_id }}">
+          <input type="hidden" name="show_id" value="{{show_id}}">
+          <div class="promo-row">
+            <input class="promo-box" type="text" id="promo_code" name="promo_code" placeholder="Promo Code">
+            <button class="promo-btn" type="submit">Apply</button>
+          </div>
+      </form>
+        <form action="{% url 'payments'%}" method="POST" style="display:flex; flex-direction:column; align-content:center; width:18vw;">
+          {% csrf_token %}
+          <input type="hidden" name="movie_title" value="{{ movie_title }}">
+          <input type="hidden" name="selected_date" value="{{ selected_date }}">
+          <input type="hidden" name="show_time" value="{{ show_time }}">
+          <input type="hidden" name="mpaa_rating" value="{{ mpaa_rating }}">
+          <input type="hidden" name="ticket_quantity" value="{{ ticket_quantity }}">
+          <input type="hidden" name="selected_seats_list" value="{{ selected_seats_list }}">
+          <input type="hidden" name="total_price" value="{{ total_price }}">
+          <input type="hidden" name="booking_fees" value="{{ booking_fees }}">
+          <input type="hidden" name="tax" value="{{ tax }}">
+          <input type="hidden" name="total_new_price" value="{{ total_new_price }}">
+          <input type="hidden" name="formatted_seats" value="{{ formatted_seats }}">
+          <input type="hidden" name="screen_id" value="{{ screen_id }}">
+          <input type="hidden" name="show_id" value="{{show_id}}">
+          <br><br>
+          <button class="proceed" type="submit" onclick="sendOrderSummary()">Proceed to Payment</button>
+      </form>
+      </div>
+    </div>
+  </body>
+</html>
+

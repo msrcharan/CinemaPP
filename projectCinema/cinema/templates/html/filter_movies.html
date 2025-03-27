@@ -1,0 +1,127 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cinema++</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" />
+  <link rel="stylesheet" href="{% static 'css/index 2.css' %}" />
+  
+  <script src="{% static 'js/common.js' %}" defer></script>
+  <style>
+    .flex-row {
+        flex:1;
+        display:flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+        overflow: auto;
+        width:100%;
+      }
+      
+      .flex-column {
+        display:flex;
+        flex-direction: column;
+        width:100%;
+        align-items: center;
+        justify-content: space-around;
+        margin:auto;
+      }
+      
+      .movie-tile {
+        flex:1;
+        justify-content: center;
+        /* Horizontally center the child image */
+        align-items: center;
+        /* Each item takes up the full width of the carousel */
+        transition: transform 0.5s ease;
+        box-sizing: border-box;
+        /* Include padding and borders in the element's total width and height */
+        background-size:contain;
+        margin:1%;
+        max-width:10vw;
+      }
+      
+      .page {
+        width:100%;
+      }
+  </style>
+</head>
+
+<body data-user-logged-in="{{ request.user.is_authenticated|yesno:'true,false' }}" data-user-name="{% if user.is_authenticated %}{{ user.get_username }}{% endif %}">
+  <div class="main-container">
+    <script async>
+
+document.addEventListener('DOMContentLoaded', function () {
+    const mainContainer = document.querySelector('.main-container');
+    fetchMovies().then(movies => {
+        const moviesPerPage = 30; // Adjust based on your layout
+        const totalPages = Math.ceil(movies.length / moviesPerPage);
+
+        for (let i = 0; i < totalPages; i++) {
+            const page = document.createElement('div');
+            page.className = 'page';
+            page.id = `page-${i + 1}`;
+            page.style.display = i === 0 ? 'block' : 'none'; // Only the first page is visible initially
+
+            const flexColumn = document.createElement('div');
+            flexColumn.className = 'flex-column';
+            page.appendChild(flexColumn);
+
+            for (let j = i * moviesPerPage; j < (i + 1) * moviesPerPage && j < movies.length; j++) {
+                if (j % 6 === 0) { // Assuming 6 movies per row
+                    var flexRow = document.createElement('div');
+                    flexRow.className = 'flex-row';
+                    flexColumn.appendChild(flexRow);
+                }
+                const movieTile = document.createElement('img');
+                movieTile.src = movies[j].image; // Assuming each movie has an 'image' property
+                movieTile.className = 'movie-tile';
+                movieTile.addEventListener('click', function() {
+                  window.location.href = '/individual_movie/' + movies[j].title + '/';});
+                flexRow.appendChild(movieTile);
+            }
+
+            // Add navigation buttons
+            if (i > 0) { // Previous button for all but the first page
+                const prevBtn = document.createElement('a');
+                prevBtn.href = '#';
+                prevBtn.textContent = 'Previous Page';
+                prevBtn.onclick = () => showPage(i, i - 1);
+                flexColumn.appendChild(prevBtn);
+            }
+            if (i < totalPages - 1) { // Next button for all but the last page
+                const nextBtn = document.createElement('a');
+                nextBtn.href = '#';
+                nextBtn.textContent = 'Next Page';
+                nextBtn.onclick = () => showPage(i, i + 1);
+                flexColumn.appendChild(nextBtn);
+            }
+
+            mainContainer.appendChild(page);
+        }
+    });
+});
+
+async function fetchMovies() {
+    // Replace this with your actual fetch call to your database or API
+    return [{% for movie in queryset %}
+    { title: '{{ movie.title }}', image: '{{ movie.image }}', trailer: '{{ movie.trailer_url }}', description: '{{ movie.description }}' },
+    {% endfor %}]
+}
+
+function showPage(currentPageIndex, nextPageIndex) {
+    document.getElementById(`page-${currentPageIndex + 1}`).style.display = 'none';
+    document.getElementById(`page-${nextPageIndex + 1}`).style.display = 'block';
+    window.scrollTo({top:0,left:0,behavior:'smooth'});
+    return false;
+}
+
+    </script>
+    
+  </div>
+</body>
+
+</html>

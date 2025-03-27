@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cinema++</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;800&display=swap" />
+  <link rel="stylesheet" href="{% static 'css/confirmation.css' %}" type="text/css" />
+  <link rel="stylesheet" href="{% static 'css/index.css' %}" type="text/css" />
+  <link rel="icon" href="/img/home_pics/logo.png" type="image/png">
+</head>
+
+<body data-user-logged-in="{{ request.user.is_authenticated|yesno:'true,false' }}" data-user-name="{% if user.is_authenticated %}{{ user.get_username }}{% endif %}">
+  <div class="main-container">
+    <script src="{% static 'js/common.js' %}" async></script>
+    <div class="rectangle">
+      <span class="thank-you">Thank you</span>
+      <div class="register-login">
+        <span class="successfully-registered">You have successfully registered. <br />Please click </span><a
+          href="/login" class="click-here">here</a>
+        <span class="to-login"> to login.</span>
+        <div class="checkmark"></div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

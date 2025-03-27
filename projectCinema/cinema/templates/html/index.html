@@ -1,0 +1,210 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cinema++</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;800&display=swap" />
+  <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/index 2.css' %}" />
+  <script src="{% static 'js/script.js' %}"></script>
+</head>
+
+<body data-user-logged-in="{{ request.user.is_authenticated|yesno:'true,false' }}" data-user-name="{% if user.is_authenticated %}{{ user.get_username }}{% endif %}">
+<script>
+  function populateCarousel() {
+    const now_showing = [
+    {% for movie in now_showing %}
+      {% if forloop.counter <= 6 %}
+        { 
+          title: '{{ movie.title|escapejs }}', 
+          rating:  '{{ movie.rating|escapejs }}', 
+          image: '{{ movie.image|escapejs }}', 
+          trailer: '{{ movie.trailer_url|escapejs }}', 
+          description: '{{ movie.description|escapejs }}'
+        },
+      {% endif %}
+    {% endfor %}
+];
+
+const coming_soon = [
+    {% for movie in coming_soon %}
+      {% if forloop.counter <= 6 %}
+        { 
+          title: '{{ movie.title|escapejs }}', 
+          rating:  '{{ movie.rating|escapejs }}',
+          image: '{{ movie.image|escapejs }}', 
+          trailer: '{{ movie.trailer_url|escapejs }}', 
+          description: '{{ movie.description|escapejs }}'
+        },
+      {% endif %}
+    {% endfor %}
+];
+    populateCategory('now-playing', now_showing);
+    populateCategory('coming-soon', coming_soon);
+}
+
+function populateCategory(categoryId, movies) {
+    const container = document.getElementById(categoryId);
+    movies.forEach((movie, index) => {
+        const item = document.createElement('div');
+        item.className = 'carousel-item';
+        item.innerHTML = `<button class="movieButton" data-movie-index="${index}">
+            <img src="${movie.image}" class="poster" alt="${movie.title}">
+            <label class="movietitle">${movie.title}</label>
+        </button>`;
+        console.log(movie);
+        container.appendChild(item);
+    });
+
+    // Select the popup and close button elements
+    
+      const myPopup = document.getElementById("myPopup");
+      const movieTitle = myPopup.querySelector("h2");
+      const popupPoster = document.getElementById("moviePoster");
+      const popupDescription = document.getElementById("movieDescription");
+      const popupTrailer = document.getElementById("movieTrailer");
+      const closePopup = document.querySelector(".closePopup");
+      const bookNow = document.getElementById("book-now");
+  
+      // Function to update and show the popup based on the clicked movie
+      function showPopup(movie) {
+          movieTitle.innerText = movie.title;
+          movieTitle.addEventListener('click', function() {
+            window.location.href = '/individual_movie/' + movie.title + '/';});
+          popupPoster.src = movie.image;
+          popupPoster.alt = movie.title;
+          popupDescription.innerText = movie.rating + ' - ' + movie.description;
+          popupTrailer.src = movie.trailer;
+          bookNow.addEventListener('click', function() {
+            window.location.href = '/individual_movie/' + movie.title + '/';
+          });
+          myPopup.style.display = "block";
+          console.log(popupTrailer.src);
+          
+      }
+
+        container.querySelectorAll('.movieButton').forEach(button => {
+            button.addEventListener("click", function () {
+                const movieIndex = this.getAttribute('data-movie-index');
+                const movie = movies[movieIndex];
+                showPopup(movie);
+            });
+        });
+
+    // Close the popup when the user clicks on <span> (x)
+    closePopup.addEventListener("click", function () {
+        myPopup.style.display = "none";
+    });
+
+    // Close the popup when the user clicks anywhere outside of it
+    window.addEventListener("click", function (event) {
+        if (event.target == myPopup) {
+            myPopup.style.display = "none";
+        }
+    });
+
+}  
+
+function createMovieElement(movie) {
+  const div = document.createElement('div');
+  div.className = 'movie';
+  div.innerHTML = `
+      <h3>${movie.title}</h3>
+      <p>${movie.description}</p>
+      <button onclick="playTrailer(${movie.trailer})">Play Trailer</button> 
+  `;
+  return div;
+}
+function getYouTubeVideoId(url) {
+  // Regular expression to match YouTube video ID in various URL formats
+  var regExp = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+
+  // Attempt to match the regular expression with the provided URL
+  var match = url.match(regExp);
+
+  // If a match is found, return the video ID, otherwise return null
+  return match ? match[1] : null;
+}
+
+function playTrailer(trailerLink) {
+  const videoId = getYouTubeVideoId(trailerLink);
+  if (videoId) {
+      const iframe = document.createElement('iframe');
+      iframe.width = "560";
+      iframe.height = "315";
+      iframe.src = `https://www.youtube.com/embed/${videoId}`;
+      iframe.title = "YouTube video player";
+      iframe.frameBorder = "0";
+      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+      iframe.allowFullscreen = true;
+      
+      // Append the iframe to a container in your HTML
+      const container = document.getElementById('iframeContainer');
+      container.appendChild(iframe);
+  } else {
+      console.error("Invalid YouTube URL");
+  }
+}
+</script>
+
+  <div class="main-container">
+    <script src="{% static 'js/common.js' %}" async></script>
+    <div class="container">
+
+      <div class="row">
+        <!-- Now Playing Carousel -->
+        <div class="carousel-wrapper">
+          <h2 class="carousel-label">Now Playing</h2>
+          <div class="carousel" id="now-playing-carousel">
+            <div class="carousel-container" id="now-playing">
+              <!-- Carousel items will be dynamically inserted here -->
+            </div>
+            <button class="carousel-control left" onclick="moveSlide('now-playing-carousel', 'prev')">‹</button>
+            <button class="carousel-control right" onclick="moveSlide('now-playing-carousel', 'next')">›</button>
+          </div>
+        </div>
+
+        <!-- Coming Soon Carousel -->
+        <div class="carousel-wrapper">
+          <h2 class="carousel-label">Coming Soon</h2>
+          <div class="carousel" id="coming-soon-carousel">
+            <div class="carousel-container" id="coming-soon">
+              <!-- Carousel items will be dynamically inserted here -->
+            </div>
+            <button class="carousel-control left" onclick="moveSlide('coming-soon-carousel', 'prev')">‹</button>
+            <button class="carousel-control right" onclick="moveSlide('coming-soon-carousel', 'next')">›</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Popup Structure -->
+
+    <div id="myPopup" class="popup">
+      <div class="popup-content">
+        <span class="closePopup">&times;</span>
+        <h2 class="popup-title">Movie Title</h2>
+        <!-- Flex container for the poster and description -->
+        <div id="movieInfo" style="display: flex; align-items: center;">
+          <!-- Poster -->
+          <img id="moviePoster" src="" alt="v" style="width:10vw; margin-right: 20px;">
+          <!-- Description -->
+          <p id="movieDescription" style="flex-grow: 1;"></p>
+        </div>
+        <!-- Trailer below the info container -->
+        <div class="video-container">
+          <iframe id="movieTrailer" src="" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope;"
+            allowfullscreen></iframe>
+        </div>
+        <button id="book-now">Book Now </button>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

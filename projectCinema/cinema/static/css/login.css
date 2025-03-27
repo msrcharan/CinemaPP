@@ -1,0 +1,120 @@
+.rectangle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  height: auto;
+  margin: auto;
+  font-size: 0px;
+  background: #e2c78c;
+  z-index: 11;
+  overflow: hidden;
+  border-radius: 10px;
+
+  border: 20px solid #e2c78c;
+  resize: none;
+}
+
+.login {
+  margin: 10% 10% 0 10%;
+  display: flex;
+  justify-content: center;
+  flex: 1;
+  height: 36px;
+  color: #000000;
+  font-family: Inter, var(--default-font-family);
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 36px;
+  text-align: left;
+  white-space: nowrap;
+  z-index: 20;
+}
+
+.form-container form textarea,
+.form-container form select,
+.form-container form input[type=text],
+.form-container form input[type=password] {
+  flex: 1;
+  font-size: 25px;
+  width: 100%;
+  height: auto;
+  background: white;
+  border: 1.5px solid #000000;
+  z-index: 12;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25);
+  resize: none;
+}
+
+.form-container {
+  max-width: 40%;
+}
+
+.form-container label {
+  display: flex;
+  justify-content: center;
+  margin: 2% 0 2% 0;
+  flex: .5;
+  height: 10%;
+  color: #000000;
+  font-family: Inter, var(--default-font-family);
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 36px;
+  text-align: left;
+  white-space: nowrap;
+  z-index: 20;
+}
+
+.form-container p {
+  display: flex;
+  /* Enable Flexbox */
+  flex-direction: column;
+  /* Stack children vertically */
+  justify-content: center;
+  /* Space out children evenly */
+}
+
+.forgot-password-click {
+  flex: 1;
+  width: 100%;
+  margin-top: 10px;
+  height: auto;
+  color: #000000;
+  margin-top: 3%;
+  font-family: Inter, var(--default-font-family);
+  text-align: center;
+  font-size: 20px;
+  font-weight: 200;
+  line-height: 24px;
+  white-space: nowrap;
+  z-index: 12;
+}
+
+.loginbtn {
+  flex: 1;
+  margin-top: 6%;
+  width: 100%;
+  height: auto;
+  font-size: 20px;
+  border-radius: 10px;
+  background-color: #e4bc68;
+  box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+ul.errorlist.nonfield li {
+  font-size: 1.2vw;
+  color: red;
+  max-width:100%;
+  margin: auto;
+}
+
+.errorlist.nonfield {
+  flex:1;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}

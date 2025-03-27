@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ movie.title }}</title>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/index 2.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'css/indi_movie.css' %}" type="text/css" />
+    <script src="{% static 'js/indi.js' %}"></script>
+  </head>
+  <body data-user-logged-in="{{ request.user.is_authenticated|yesno:'true,false' }}" data-user-name="{% if user.is_authenticated %}{{ user.get_username }}{% endif %}">
+    <div class="main-container" style="padding:20px;">
+      <script src="{% static 'js/common.js' %}"></script>
+      <div class="rect">
+        <h1 class="movietitle" style="margin-bottom: 3vh;">{{ movie.title }}</h1>
+        <div class="img-desc">
+          <div class="desc-trailer">
+            <img src="{{ movie.image }}" alt="{{ movie.title }}" class="poster" />
+            <p class="rating">★{{movie.star_rating|floatformat}}/10</p>
+          </div>
+          <div class="desc-trailer">
+            <p class="desc">{{movie.rating}} - {{ movie.description }}</p>
+            <div class="video-container">
+              <iframe id="movieTrailer" src="{{ movie.trailer_url }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope;" allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+        <div class="detail-item">
+          <h1 class="detail-title">Director:&nbsp;</h1>
+          <p class="details">{{ movie.director }}</p>
+        </div>
+        <div class="detail-item">
+          <h1 class="detail-title">Producers:&nbsp;</h1>
+          <p class="details">{{ movie.producer }}</p>
+        </div>
+        <div class="detail-item">
+          <h1 class="detail-title">Cast:&nbsp;</h1>
+          <p class="details">{{ movie.cast }}</p>
+        </div>
+
+
+        <h2 class="dates-header">Show Dates and Times:</h2>
+        
+        <div id="shows-container" style="display: flex; align-items: center; visibility: hidden">
+          <button id="left-arrow" class="arrow">&#10094;</button>
+          <!-- Left arrow -->
+          <ul id="shows-list">
+            
+            {% for show in shows %}
+              <li>
+                <form action="{% url 'select_time_and_seats'  movie.title  %}" method="get">
+                  <input type="hidden" name="selected_date" value="{{ show.start_time|date:'Y-m-d' }}" />
+                  <button type="submit">{{ show.start_time|date:'D M d' }}</button>
+                </form>
+              </li>
+            {% endfor %}
+          </ul>
+          <button id="right-arrow" class="arrow">&#10095;</button> <!-- Right arrow -->
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

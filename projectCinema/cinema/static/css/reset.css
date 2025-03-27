@@ -1,0 +1,43 @@
+.Block {
+    background-color: #e4bc68;
+    height: 30vh;
+    width: 50%;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.form1{
+    position: relative;
+}
+.h2 {
+    display: block;
+    width: fit-content;
+    position: relative;
+    font-size: 2vw;
+    top: -5vh;
+    font-weight: bold;
+}
+.b{
+    left: 5vw;
+}
+.h3 {
+    display: block;
+    width: fit-content;
+    position: relative;
+    font-size: 2vw;
+    font-weight: bold;
+}
+.p{
+    font-size: 1.5vw;
+    position: block;
+}
+.sent{
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.container{
+    width: fit-content;
+}

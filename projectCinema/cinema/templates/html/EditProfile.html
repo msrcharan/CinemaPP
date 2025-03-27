@@ -1,0 +1,120 @@
+<!-- edit_profile.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;800&display=swap" />
+    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/index 2.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/editprofile.css' %}" />
+    <script src="{% static 'js/edit_profile.js' %}"></script> <!-- Updated to script tag -->
+</head>
+<body data-user-logged-in="{{ request.user.is_authenticated|yesno:'true,false' }}" data-user-name="{% if user.is_authenticated %}{{ user.get_username }}{% endif %}">
+    <div class="main-container" style="padding:30px;">
+        <script src="{% static 'js/common.js' %}" async></script>
+        <div class="rectangle">
+            {% if user.is_authenticated %}
+            <!-- Display logout button if user is logged in -->
+            <div class="form-container">
+                <form action="{% url 'logout' %}" method="post">
+                    <label class="user-info">Edit Profile</label>
+                    {% csrf_token %}
+                    <button type="submit" class="btn">Logout</button>
+                </form>
+            </div>
+            {% endif %} <!-- Ensured endif is properly placed -->
+            <div class="form-container"> <!-- Opened a new div for the next form -->
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                    {% endfor %}
+                    <button type="submit" class="btn">Save Changes</button>
+                </form>
+                <a href="/password-reset"><button class="btn">Change Password</button></a>
+            </div>
+
+            <div class="form-container" id="edit-payment-form" style="margin-top:6%;">
+                <form method="post" action="{% url 'save_payment' %}">
+                    {% csrf_token %}
+                    <select id="cardSelector" onchange="displayCard()">
+                        <option value="">Select a Card</option>
+                        <option value="Card 1">Card 1</option>
+                        <option value="Card 2">Card 2</option>
+                        <option value="Card 3">Card 3</option>
+                    </select>
+                    <div class="form-container" id="cardDetails1" style="display:none;">
+                        <label for="id_credit_card_type">Card Type</label>
+                        <input type="text" id="id_credit_card_type" name="credit_card_type" value="{% if user.credit_card_type %}{{ user.credit_card_type }}{% endif %}">
+                        <label for="id_credit_card_name">First and Last Name</label>
+                        <input type="text" id="id_credit_card_name" name="credit_card_name" value="{% if user.credit_card_name %}{{ user.credit_card_name }}{% endif %}">
+                        <label for="id_credit_card_number">Credit Card Number</label>
+                        <input type="text" id="id_credit_card_number" name="credit_card_number" value="{% if user.credit_card_number %}{{ user.credit_card_number }}{% endif %}">
+                        <label for="id_credit_card_cvv">CVV</label>
+                        <input type="text" id="id_credit_card_cvv" name="credit_card_cvv" value="{% if user.credit_card_cvv %}{{ user.credit_card_cvv }}{% endif %}">
+                        <label for="id_credit_card_expiry">Expiration Date</label>
+                        <input type="date" id="id_credit_card_expiry" name="credit_card_expiry" value="{% if user.credit_card_expiry %}{{ user.credit_card_expiry }}{% endif %}">
+                        <label for="id_credit_card_address">Billing Address</label>
+                        <input type="text" id="id_credit_card_address" name="credit_card_address" value="{% if user.credit_card_address %}{{ user.credit_card_address }}{% endif %}">
+                        <label for="id_credit_card_city">City</label>
+                        <input type="text" id="id_credit_card_city" name="credit_card_city" value="{% if user.credit_card_city %}{{ user.credit_card_city }}{% endif %}">
+                        <label for="id_credit_card_state">State</label>
+                        <input type="text" id="id_credit_card_state" name="credit_card_state" value="{% if user.credit_card_state %}{{ user.credit_card_state }}{% endif %}">
+                        <label for="id_credit_card_zip">ZIP Code</label>
+                        <input type="text" id="id_credit_card_zip" name="credit_card_zip" value="{% if user.credit_card_zip %}{{ user.credit_card_zip }}{% endif %}">
+                        <button id="save" type="submit" class="btn">Save Payment</button>
+                    </div>                    
+                    <div class="form-container" id="cardDetails2" style="display:none;">
+                        <label for="id_credit_card_type">Card Type</label>
+                        <input type="text" id="id_credit_card_type" name="credit_card_type" value="{% if user.credit_card_type_2 %}{{ user.credit_card_type_2 }}{% endif %}">
+                        <label for="id_credit_card_name">First and Last Name</label>
+                        <input type="text" id="id_credit_card_name" name="credit_card_name" value="{% if user.credit_card_name_2 %}{{ user.credit_card_name_2 }}{% endif %}">
+                        <label for="id_credit_card_number">Credit Card Number</label>
+                        <input type="text" id="id_credit_card_number" name="credit_card_number" value="{% if user.credit_card_numbe_2 %}{{ user.credit_card_number_2 }}{% endif %}">
+                        <label for="id_credit_card_cvv">CVV</label>
+                        <input type="text" id="id_credit_card_cvv" name="credit_card_cvv" value="{% if user.credit_card_cvv_2 %}{{ user.credit_card_cvv_2 }}{% endif %}">
+                        <label for="id_credit_card_expiry">Expiration Date</label>
+                        <input type="date" id="id_credit_card_expiry" name="credit_card_expiry" value="{% if user.credit_card_expiry_2 %}{{ user.credit_card_expiry_2 }}{% endif %}">
+                        <label for="id_credit_card_address">Billing Address</label>
+                        <input type="text" id="id_credit_card_address" name="credit_card_address" value="{% if user.credit_card_address_2 %}{{ user.credit_card_address_2 }}{% endif %}">
+                        <label for="id_credit_card_city">City</label>
+                        <input type="text" id="id_credit_card_city" name="credit_card_city" value="{% if user.credit_card_city_2 %}{{ user.credit_card_city_2 }}{% endif %}">
+                        <label for="id_credit_card_state">State</label>
+                        <input type="text" id="id_credit_card_state" name="credit_card_state" value="{% if user.credit_card_state_2 %}{{ user.credit_card_state_2 }}{% endif %}">
+                        <label for="id_credit_card_zip">ZIP Code</label>
+                        <input type="text" id="id_credit_card_zip" name="credit_card_zip" value="{% if user.credit_card_zip_2 %}{{ user.credit_card_zip_2 }}{% endif %}">
+                        <button id="save" type="submit" class="btn">Save Payment</button>
+                    </div>                    
+                    <div class="form-container" id="cardDetails3" style="display:none;">
+                        <label for="id_credit_card_type">Card Type</label>
+                        <input type="text" id="id_credit_card_type" name="credit_card_type" value="{% if user.credit_card_type_3 %}{{ user.credit_card_type_3 }}{% endif %}">
+                        <label for="id_credit_card_name">First and Last Name</label>
+                        <input type="text" id="id_credit_card_name" name="credit_card_name" value="{% if user.credit_card_name_3 %}{{ user.credit_card_name_3 }}{% endif %}">
+                        <label for="id_credit_card_number">Credit Card Number</label>
+                        <input type="text" id="id_credit_card_number" name="credit_card_number" value="{% if user.credit_card_number_3 %}{{ user.credit_card_number_3 }}{% endif %}">
+                        <label for="id_credit_card_cvv">CVV</label>
+                        <input type="text" id="id_credit_card_cvv" name="credit_card_cvv" value="{% if user.credit_card_cvv_3 %}{{ user.credit_card_cvv_3 }}{% endif %}">
+                        <label for="id_credit_card_expiry">Expiration Date</label>
+                        <input type="date" id="id_credit_card_expiry" name="credit_card_expiry" value="{% if user.credit_card_expiry_3 %}{{ user.credit_card_expiry_3 }}{% endif %}">
+                        <label for="id_credit_card_address">Billing Address</label>
+                        <input type="text" id="id_credit_card_address" name="credit_card_address" value="{% if user.credit_card_address_3 %}{{ user.credit_card_address_3 }}{% endif %}">
+                        <label for="id_credit_card_city">City</label>
+                        <input type="text" id="id_credit_card_city" name="credit_card_city" value="{% if user.credit_card_city_3 %}{{ user.credit_card_city_3 }}{% endif %}">
+                        <label for="id_credit_card_state">State</label>
+                        <input type="text" id="id_credit_card_state" name="credit_card_state" value="{% if user.credit_card_state_3 %}{{ user.credit_card_state_3 }}{% endif %}">
+                        <label for="id_credit_card_zip">ZIP Code</label>
+                        <input type="text" id="id_credit_card_zip" name="credit_card_zip" value="{% if user.credit_card_zip_3 %}{{ user.credit_card_zip_3 }}{% endif %}">
+                        <button id="save" type="submit" class="btn">Save Payment</button>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

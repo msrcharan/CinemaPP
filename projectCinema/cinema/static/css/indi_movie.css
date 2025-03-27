@@ -1,0 +1,143 @@
+.movie-container {
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin:auto;
+  width:80%;
+  background-color: #e2c78c;
+  border-radius: 10px;
+}
+
+.date-row {
+  display:flex;
+  flex-direction:row;
+  align-items: center;
+  justify-content: space-between;
+  margin:auto;
+}
+
+.date-object {
+  flex:1;
+  margin:auto;
+  max-height:60vh;
+  object-fit:cover;
+  justify-content: center;
+}
+
+.img-desc {
+  padding:10px;
+  display: flex; /* Enables Flexbox */
+  flex-direction: row;
+  align-items: center; /* Aligns items vertically in the middle */
+  justify-content: flex-start; /* Aligns items to the start of the flex container */
+}
+
+.desc-trailer {
+  flex:1;
+  display:flex;
+  flex-direction: column;
+  align-items:center;
+  justify-content: flex-start;
+  height:100%;
+}
+
+.poster {
+  margin:auto;
+  width:100%;
+  height:100%;
+  flex:1;
+  object-fit:contain;
+}
+
+.desc {
+  flex:1;
+  font-size:3vh;
+  flex-grow:1;
+}
+
+.rating {
+  flex:1;
+  font-size:3vh;
+}
+
+.rect {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  font-size: 0px;
+  background: #e2c78c;
+  border: 20px solid #e2c78c;
+  z-index: 11;
+  border-radius: 10px;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+  max-width: 80%;
+  /* Adjusted from width to max-width */
+  /*overflow: hidden;
+  /* Prevents overflow */
+}
+
+.dates-header {
+  padding:1vh;
+  font-size:3vh;
+}
+
+ul {
+  display: flex;
+  flex-direction: row;
+  align-items:center;
+  padding:0px;
+}
+
+li {
+  flex:1;
+  text-align: center;
+}
+
+button {
+  flex:1;
+  font-size:1.5vw;
+  background-color: #e4bc68;
+  max-width:4vw;
+  border-color:black;
+  border-radius:20%;
+  font-family: 'Times New Roman', Times, serif;
+  cursor: pointer;
+}
+
+.arrow {
+  padding: 5px 10px; /* Adjust padding to control the space inside the button */
+    cursor: pointer; /* Makes it clear the button is clickable */
+    max-width: 10px; /* Ensures a minimum width if needed */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#shows-list {
+  display: flex;   /* Display items in a row */
+  transition: transform 0.3s ease-out;  /* Smooth transition for the transform property */
+  will-change: transform;  /* Optimizes the property, allowing smoother animations */
+  overflow: hidden;  /* Hide the overflow */
+}
+
+#shows-list li {
+  flex-shrink: 0;  /* Prevent the items from shrinking */
+  width: 100px;  /* Set a fixed width for each item */
+  margin-right: 10px;  /* Margin between items */
+}
+
+.detail-item {
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.detail-title {
+  font-size:2vh;
+}
+
+.details {
+  font-size:2vh;
+}

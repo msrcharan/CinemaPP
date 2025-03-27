@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Promotions - Cinema++ Admin</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;800&display=swap">
+    <link rel="stylesheet" href="{% static 'css/adminpromotions.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}" type="text/css">
+</head>
+
+<body>
+    <div class="main-container">
+        <script src="{% static 'js/common.js' %}" async></script>
+        <div class="flex-row-d">
+            <div class="rectangle-1">
+                <form id="promotionForm">
+                    <label class="admin-header">Promotions</label>
+                    <div class="form-group">
+                        <label for="promotionName" class="form-label">Promotion Name</label>
+                        <input type="text" id="promotionName" class="frame-textarea" placeholder="Enter promotion name"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea id="description" class="frame-textarea" placeholder="Enter description"
+                            required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="discountType" class="form-label">Discount Type</label>
+                        <select id="discountType" class="frame-textarea">
+                            <option value="percentage">Percentage Off</option>
+                            <option value="fixed">Fixed Amount Off</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="discountValue" class="form-label">Discount Value</label>
+                        <input type="number" id="discountValue" class="frame-textarea"
+                            placeholder="Enter discount value" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="startDate" class="form-label">Start Date</label>
+                        <input type="date" id="startDate" class="frame-textarea" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="endDate" class="form-label">End Date</label>
+                        <input type="date" id="endDate" class="frame-textarea" required>
+                    </div>
+                    <button type="submit" class="signupbtn">Add Promotion</button>
+                </form>
+                <script>
+                    document.getElementById('promotionForm').addEventListener('Add Promotion', function(event) {
+                      event.preventDefault(); // Prevent the default form submission
+                      if (this.checkValidity()) { // Check if all required fields are filled
+                        window.location.href = '../Confirmation/index.html'; // Redirect if form is valid
+                      } else {
+                        // Optional: Trigger validation messages
+                        this.reportValidity();
+                      }
+                    });
+                  </script>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>

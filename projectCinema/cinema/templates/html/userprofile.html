@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cinema++</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;800&display=swap" />
+    <link rel="stylesheet" href="{% static 'css/userprofile.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'css/index.css' %}" type="text/css" />
+</head>
+
+<body data-user-logged-in="{{ request.user.is_authenticated|yesno:'true,false' }}" data-user-name="{% if user.is_authenticated %}{{ user.get_username }}{% endif %}">
+    <div class="main-container" style="padding:10px; margin:auto;">
+        <script src="{% static 'js/common.js' %}" async></script>
+        <div class="flex-row-d">
+            <div class="symbol-1"></div>
+            <div class="symbol-2"></div>
+            <div class="rectangle-1">
+                <form>
+                    <label class="user-info">User Info</label>
+                    <input class="frame-textarea" type="text" placeholder="Name" required></input>
+                    <input class="frame-textarea" type="email" placeholder="Email" required></input>
+                    <input class="frame-textarea" type="tel" placeholder="Phone" required></input>
+                    <input class="frame-textarea" type="text" placeholder="Address Line 1"></input>
+                    <input class="frame-textarea" type="text" placeholder="Address Line 2"></input>
+                    <input class="frame-textarea" type="text" placeholder="City"></input>
+                    <input class="frame-textarea" type="text" placeholder="State"></input>
+                    <input class="frame-textarea" type="text" placeholder="ZIP Code"></input>
+
+                    <button type="submit" class="signupbtn" id="signup">Submit</button>
+                    <script>
+                        document.getElementById('myform').addEventListener('submit', function (event) {
+                            event.preventDefault(); // Prevent the default form submission
+                            if (this.checkValidity()) { // Check if all required fields are filled
+                                window.location.href = '/userprofile/'; // Redirect if form is valid
+                            } else {
+                                // Optional: Trigger validation messages
+                                this.reportValidity();
+                            }
+                        });
+                    </script>
+                </form>
+
+            </div>
+            <div class="symbol-3"></div>
+            <div class="symbol-4"></div>
+        </div>
+    </div>
+</body>
+
+</html>

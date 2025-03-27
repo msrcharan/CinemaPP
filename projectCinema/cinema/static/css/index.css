@@ -1,0 +1,222 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 80vh;
+}
+
+.search-container {
+
+  display: flex;
+  flex: 1;
+  width: 100%;
+  max-height: 5%;
+}
+
+.search {
+  flex: .95;
+  width: 100%;
+}
+
+.searchbtn {
+  flex: .05;
+  width: 100%;
+}
+
+.row {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  overflow: auto;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #333;
+  font-family: 'Arial', sans-serif;
+}
+
+.carousel-container {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.carousel-item {
+  flex-direction: column;
+  display: flex;
+  /* Use flexbox to center children */
+  justify-content: center;
+  /* Horizontally center the child image */
+  align-items: center;
+  /* Vertically center the child image */
+  min-width: 100%;
+  /* Each item takes up the full width of the carousel */
+  transition: transform 0.5s ease;
+  box-sizing: border-box;
+  /* Include padding and borders in the element's total width and height */
+}
+
+.carousel {
+  position: relative;
+  max-width: 53vh;
+  /* changed --Riley */
+  margin: auto;
+  overflow: hidden;
+}
+
+.carousel-control {
+  position: absolute;
+  top: 50%;
+  /* Center vertically */
+  transform: translateY(-50%);
+  /* Align arrow center with carousel center */
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Semi-transparent background */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  /* Adjust size as needed */
+  cursor: pointer;
+  z-index: 10;
+  /* Ensure it's above the images */
+}
+
+.carousel-control.left {
+  left: 10px;
+  /* Distance from the left edge */
+}
+
+.carousel-control.right {
+  right: 10px;
+  /* Distance from the right edge */
+}
+
+.movietitle {
+  font-size: 5vh;
+  background-color: #e2c78c;
+  margin: 1vh auto auto auto;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.carousel-label {
+  color: white;
+  /* Choose a color that fits your design */
+  text-align: center;
+  /* Center the labels if that fits your design */
+  margin-top: 20px;
+  /* Space above the label */
+  margin-bottom: 10px;
+  /* Space between the label and the carousel */
+  font-family: 'Inter', sans-serif;
+  /* Font as per your Google Fonts import */
+  font-weight: 800;
+  /* A bold font-weight for visibility */
+}
+
+.carousel-wrapper {
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  /* Center the carousel within the wrapper */
+  width: 100%;
+  /* Take up the full width of the parent */
+}
+
+.movieButton {
+  background-color: transparent;
+  border-color:transparent;
+}
+
+.popup {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: none;
+  z-index:11;
+}
+
+.popup-content {
+  background-color: white;
+  margin: 10% auto;
+  padding: 20px;
+  border: 1px solid #888888;
+  width: 30%;
+  font-weight: bolder;
+}
+
+.closePopup {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.closePopup:hover,
+.closePopup:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.popup-content button {
+  display: block;
+  margin: 0 auto;
+}
+.show {
+  display: block;
+}
+
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  width: 100%;
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.poster {
+  flex:1;
+  margin:auto;
+  width:20vw;
+  max-height:60vh;
+  object-fit:cover;
+  }
+  
+  .movieButton {
+  display:flex;
+  flex-direction: column;
+  background-color: transparent;
+  border-color:transparent;
+  max-width:100%;
+  }
+
+  #book-now {
+    background-color: #e4bc68;
+    border:none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    width:100%;
+    font-size: 16px;
+    margin-top:5%;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+
+  

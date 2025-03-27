@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cinema++</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;800&display=swap" />
+  <link rel="stylesheet" href="../index.css" />
+  <link rel="stylesheet" href="index.css" />
+  <script src="script.js"></script>
+ 
+</head>
+
+<body data-user-logged-in="{{ request.user.is_authenticated|yesno:'true,false' }}" data-user-name="{% if user.is_authenticated %}{{ user.get_username }}{% endif %}">
+  <div class="main-container">
+    
+    <script src="../common.js"></script>
+    <div id="timeSelector" style="display: none; position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border: 1px solid #ccc; z-index: 100;">
+      <!-- Time options will be dynamically added here -->
+  </div>
+    <div class="Date">
+       <div class="D1">
+            <div class="DateContainer"></div>
+            <span class="Day">Today</span>
+            <span class="Month">FEB
+                                    5</span>
+        </div>
+        <div class="D2">
+            <div class="DateContainer"></div>
+            <span class="Day">TUE</span>
+            <span class="Month">FEB
+                                    6</span>
+        </div>
+        <div class="D3">
+            <div class="DateContainer"></div>
+            <span class="Day">WED</span>
+            <span class="Month">FEB
+                                    7</span>
+        </div>
+        <div class="D4">
+            <div class="DateContainer"></div>
+            <span class="Day">FRI</span>
+            <span class="Month">FEB
+                                    9</span>
+        </div>
+        <div class="D5">
+            <div class="DateContainer"></div>
+            <span class="Day">THU</span>
+            <span class="Month">FEB
+                                    8</span>
+        </div>
+        
+        
+       
+    </div>
+    <div class="MovieScreen">
+        <div class="mvContainer"></div>
+        
+        <span class="Title">Title</span>
+        <span class="Rating">Rating</span>
+        <span class="Stars">5/5</span>
+
+
+        <div class="movie-img"></div>
+        <div class="trailer"></div>
+
+        <div class="movie-info">
+        <span class="desc">movie description<br /></span>
+        <span class="cast">CAST</span>
+        
+
+
+        </div>
+
+
+      
+      
+        
+      </div>
+      
+
+       
+      
+         
+          
+          </div>
+      
+      
+            
+        <script src="Seats.js"></script>
+        <script src="Confirm.js"></script>
+        <script src="dateScript.js"></script>
+        <script src="time.js"></script>
+
+        
+
+</body>
+
+</html>
+
+
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Individual Movie</title>
+</head>
+<body>
+    <h1>Movie Title: {{ movie_title }}</h1>
+</body>
+</html> {% endcomment %}

@@ -1,0 +1,53 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" href="/img/home_pics/logo.png" type="image/png">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/index 2.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'css/indi_movie.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'css/booking.css' %}" type="text/css" />
+
+</head>
+
+<body data-user-logged-in="{{ request.user.is_authenticated|yesno:'true,false' }}" data-user-name="{% if user.is_authenticated %}{{ user.get_username }}{% endif %}">
+    <div class="main-container" style="padding:20px;">
+        <script src="{% static 'js/common.js' %}" async></script>
+        <div class="rect">
+            <h1> Order Confirmed </h1>
+            <div class="summary-item">
+                <h4>Movie:&nbsp;</h4>{{movie_title}}
+                <p>{{ movie_title }}</p>
+            </div>
+            <div class="summary-item">
+                <h4>Rating:&nbsp;</h4>
+                <p>{{ mpaa_rating }}</p>
+            </div>
+            <div class="summary-item">
+                <h4>Booking ID:&nbsp;</h4>
+                <p>{{booking_id}}</p>
+            </div>
+            <div class="summary-item">
+                <h4>Show Time:&nbsp;</h4>
+                <p>{{show_time}}</p>
+            </div>
+            <div class="summary-item">
+                <h4>Ticket qty:&nbsp;</h4>
+                <p>{{ticket_quantity}}</p>
+            </div>
+            <div class="summary-item">
+                <h4>Seats:&nbsp;</h4>
+                <p>{{seats}}</p>
+            </div>
+            
+            <img src="data:image/png;base64,{{ qr_code }}" alt="QR Code">
+            <div class="summary-item">
+                <button class="proceed" onclick="window.location.href='{% url 'home' %}'">Go to<br>Home</button>
+                <button class="proceed" onclick="window.location.href='{% url 'my_bookings' %}'">Go to My Bookings</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
