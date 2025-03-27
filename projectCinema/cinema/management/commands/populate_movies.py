@@ -164,7 +164,7 @@ def fetch_movie_data():
         else:
             return None
     for i in range(1,2):
-        api_key = "75242561ec4e1ad66b850d6e58964b36"
+        api_key = ""
         url = f"https://api.themoviedb.org/3/movie/popular?api_key={api_key}&language=en-US&page={i}"
         response = requests.get(url)
         
